@@ -62,9 +62,9 @@ class SessionController {
       return res.status(404).json({ response: 'Token não encontrado!' });
     }
 
-    const isRevoked = await tokenToRevoke.update({ revoked: true });
+    const setRevoked = await tokenToRevoke.update({ revoked: true });
 
-    if (!isRevoked) {
+    if (!setRevoked) {
       return res
         .status(500)
         .json({ response: 'Falha ao deslogar: token não revogado!' });
