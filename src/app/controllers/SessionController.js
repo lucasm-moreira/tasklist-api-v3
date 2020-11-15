@@ -26,9 +26,7 @@ class SessionController {
     });
 
     if (activeToken) {
-      return res.status(200).json({
-        response: `Você já está autenticado com o token: ${activeToken.token}`,
-      });
+      await activeToken.update({ revoked: true });
     }
 
     const token = jwt.sign({ id }, authConfig.secret, {
