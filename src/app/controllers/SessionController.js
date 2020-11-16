@@ -54,12 +54,12 @@ class SessionController {
     // Descarta a primeira posição, ou seja, a palavra Bearer
     const [, token] = authHeader.split(' ');
 
-    const tokenToRevoke = await Token.findOne({
+    let tokenToRevoke = await Token.findOne({
       where: { token: token, user_id: req.userId, revoked: false },
     });
 
     if (!tokenToRevoke) {
-      return res.status(404).json({ response: 'Token não encontrado!' });
+      tokenToRevoke = await Token.create({ token: token, user_id: req.userId, revoked: false });
     }
 
     const setRevoked = await tokenToRevoke.update({ revoked: true });
